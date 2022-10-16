@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css" integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/bootstrap/5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/dmxAppConnect/dmxNotifications/dmxNotifications.css" />
+    <link rel="stylesheet" href="/dmxAppConnect/dmxBootstrap5TableGenerator/dmxBootstrap5TableGenerator.css" />
+    <link rel="stylesheet" href="/dmxAppConnect/dmxValidator/dmxValidator.css" />
+    <link rel="stylesheet" href="/dmxAppConnect/dmxDropzone/dmxDropzone.css" />
+
+    <script src="/dmxAppConnect/dmxAppConnect.js"></script>
+    <script src="/dmxAppConnect/dmxRouting/dmxRouting.js" defer></script>
+    <script src="/dmxAppConnect/dmxBootstrap5Modal/dmxBootstrap5Modal.js" defer></script>
+    <script src="/dmxAppConnect/dmxDataTraversal/dmxDataTraversal.js" defer></script>
+    <script src="/dmxAppConnect/dmxNotifications/dmxNotifications.js" defer></script>
+    <script src="/dmxAppConnect/dmxFormatter/dmxFormatter.js" defer></script>
+    <script src="/dmxAppConnect/dmxFormRepeat/dmxFormRepeat.js" defer></script>
+    <script src="/dmxAppConnect/dmxDropzone/dmxDropzone.js" defer></script>
+    <script src="/dmxAppConnect/dmxValidator/dmxValidator.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1/Sortable.min.js"></script>
+    <script src="/dmxAppConnect/dmxBootstrap5Navigation/dmxBootstrap5Navigation.js" defer></script>
+</head>
+
+<body is="dmx-app" id="admin">
+    <header class="bg-primary text-light mb-4">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col d-flex justify-content-between">
+                    <h1 class="h4 pt-2 pb-1">Admin Panel</h1>
+                    <a class="nav-item nav-link text-light" href="/">Logout</a>
+                </div>
+            </div>
+        </div>
+
+    </header>
+    <main>
+        <div is="dmx-view" id="content">
+            <%- await include(content, locals); %>
+        </div>
+    </main>
+    <script src="/bootstrap/5/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

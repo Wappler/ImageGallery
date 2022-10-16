@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "options": {
+      "linkedFile": "/views/admin/galleries.ejs",
+      "linkedForm": "frmDeleteImage"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "id",
+        "name": "id"
+      },
+      {
+        "type": "text",
+        "fieldName": "gallery_id",
+        "name": "gallery_id"
+      },
+      {
+        "type": "text",
+        "fieldName": "image",
+        "name": "image"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "delete",
+        "module": "dbupdater",
+        "action": "delete",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "delete",
+            "table": "gallery_images",
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_POST.id}}",
+                  "data": {
+                    "column": "id"
+                  },
+                  "operation": "="
+                }
+              ]
+            },
+            "returning": "id",
+            "query": "DELETE\nFROM gallery_images\nWHERE id = :P1 /* {{$_POST.id}} */",
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_POST.id}}"
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "name": "fileExists",
+        "module": "fs",
+        "action": "exists",
+        "options": {
+          "path": "{{'/assets/images/galleries/'+$_POST.gallery_id+'/'+$_POST.image}}"
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "fileRemoveImage",
+        "module": "fs",
+        "action": "remove",
+        "options": {
+          "path": "{{'/public/assets/images/galleries/'+$_POST.gallery_id+'/'+$_POST.image}}"
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "fileRemoveThumb",
+        "module": "fs",
+        "action": "remove",
+        "options": {
+          "path": "{{'/public/assets/images/galleries/'+$_POST.gallery_id+'/thumbs/'+$_POST.image}}"
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}

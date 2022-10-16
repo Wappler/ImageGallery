@@ -1,0 +1,30 @@
+/* image delete and sort buttons */
+.gallery-image {
+    position: relative;
+}
+
+.gallery-image .sort-image, 
+.gallery-image .delete-image {
+    top: 0;
+    opacity: 0;
+    -webkit-transition: opacity 1s ease;
+    transition: opacity 1s ease;
+    position: absolute;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+}
+
+.gallery-image .sort-image {
+    left: 10px;
+}
+
+.gallery-image .delete-image {
+    right: -10px;
+}
+
+.gallery-image:hover .sort-image,
+.gallery-image:focus .sort-image,
+.gallery-image:hover .delete-image,
+.gallery-image:focus .delete-image {
+    opacity: 1;
+}

@@ -1,0 +1,19 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="gallery" appConnect="local" components="{dmxDataTraversal:{},dmxStateManagement:{},dmxFormatter:{},dmxLightbox:{}}" -->
+<dmx-lightbox id="lightbox"></dmx-lightbox>
+<meta name="ac:route" content="/gallery/:id">
+
+<dmx-serverconnect id="scGalleries" url="/api/galleries/read"></dmx-serverconnect>
+<dmx-data-view id="dvGallery" dmx-bind:data="scGalleries.data.query" filter="(id == query.id)"></dmx-data-view>
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 dmx-text="dvGallery.data[0].gallery" class="h3">Fancy display heading</h1>
+            <p dmx-text="dvGallery.data[0].description"></p>
+        </div>
+    </div>
+    <div class="row gx-2 gy-2 row-cols-6" is="dmx-repeat" id="repeatImages" dmx-bind:repeat="dvGallery.data[0].images">
+        <div class="col">
+            <a dmx-bind:href="'/assets/images/galleries/'+gallery_id+'/'+image" dmx-lightbox:images=""><img dmx-bind:src="'/assets/images/galleries/'+gallery_id+'/thumbs/'+image" class="img-fluid"></a>
+        </div>
+    </div>
+</div>

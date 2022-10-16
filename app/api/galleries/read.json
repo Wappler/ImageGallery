@@ -1,0 +1,99 @@
+{
+  "meta": {
+    "$_GET": [
+      {
+        "type": "text",
+        "name": "sort"
+      },
+      {
+        "type": "text",
+        "name": "dir"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "query",
+      "module": "dbconnector",
+      "action": "select",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "SELECT",
+          "columns": [
+            {
+              "table": "galleries",
+              "column": "id"
+            },
+            {
+              "table": "galleries",
+              "column": "gallery"
+            },
+            {
+              "table": "galleries",
+              "column": "description"
+            }
+          ],
+          "table": {
+            "name": "galleries"
+          },
+          "primary": "id",
+          "joins": [],
+          "sub": {
+            "images": {
+              "type": "SELECT",
+              "table": {
+                "name": "gallery_images",
+                "alias": "images"
+              },
+              "key": "gallery_id",
+              "columns": [],
+              "primary": "id",
+              "joins": [],
+              "orders": [],
+              "query": "SELECT *\nFROM gallery_images AS images",
+              "params": []
+            }
+          },
+          "query": "SELECT id, gallery, description\nFROM galleries",
+          "params": [],
+          "orders": []
+        }
+      },
+      "output": true,
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "text",
+          "name": "gallery"
+        },
+        {
+          "type": "text",
+          "name": "description"
+        },
+        {
+          "name": "images",
+          "type": "array",
+          "sub": [
+            {
+              "type": "number",
+              "name": "id"
+            },
+            {
+              "type": "text",
+              "name": "image"
+            },
+            {
+              "type": "number",
+              "name": "gallery_id"
+            }
+          ]
+        }
+      ],
+      "outputType": "array"
+    }
+  }
+}

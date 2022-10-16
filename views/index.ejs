@@ -1,0 +1,24 @@
+<!-- Wappler include head-page="layouts/main" fontawesome_5="cdn" bootstrap5="local" is="dmx-app" id="index" appConnect="local" components="{dmxFormatter:{}}" -->
+<meta name="ac:route" content="/">
+<dmx-serverconnect id="scGalleries" url="/api/galleries/read"></dmx-serverconnect>
+<div class="container">
+    <div class="row mb-2">
+        <div class="col">
+            <h1>Image Galleries</h1>
+        </div>
+    </div>
+    <div class="row row-cols-4 gy-4" is="dmx-repeat" id="repeatGalleries" dmx-bind:repeat="scGalleries.data.query">
+        <div class="col">
+            <div class="card">
+                <div class="card-header text-light bg-primary">
+                    <h4 dmx-text="gallery" class="h5">Gallery Title</h4>
+                </div>
+                <img class="card-img-top" alt="Card image cap" dmx-bind:src="'/assets/images/galleries/'+id+'/thumbs/'+images[0].image">
+                <div class="card-body">
+                    <p class="card-text" dmx-text="description.trunc(80, true, '...')">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                </div>
+                <div class="card-footer pt-0 pb-0 ps-0 pe-0"><a href="#" class="btn w-100 btn-light" dmx-bind:href="'/gallery/'+id">Go to the Gallery</a></div>
+            </div>
+        </div>
+    </div>
+</div>

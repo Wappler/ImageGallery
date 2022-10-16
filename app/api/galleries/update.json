@@ -1,0 +1,130 @@
+{
+  "meta": {
+    "options": {
+      "linkedForm": "frmGalleryUpdate",
+      "linkedFile": "/views/admin/galleries.ejs"
+    },
+    "$_POST": [
+      {
+        "type": "text",
+        "fieldName": "gallery",
+        "options": {
+          "rules": {
+            "core:required": {
+              "param": ""
+            }
+          }
+        },
+        "name": "gallery"
+      },
+      {
+        "type": "text",
+        "fieldName": "description",
+        "name": "description"
+      },
+      {
+        "type": "number",
+        "fieldName": "id",
+        "name": "id"
+      },
+      {
+        "type": "array",
+        "name": "formRepeatImages",
+        "sub": [
+          {
+            "type": "text",
+            "fieldName": "formRepeatImages[{{$index}}][image]",
+            "name": "image"
+          }
+        ]
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "update",
+      "module": "dbupdater",
+      "action": "update",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "update",
+          "values": [
+            {
+              "table": "galleries",
+              "column": "gallery",
+              "type": "text",
+              "value": "{{$_POST.gallery}}"
+            },
+            {
+              "table": "galleries",
+              "column": "description",
+              "type": "text",
+              "value": "{{$_POST.description}}"
+            }
+          ],
+          "table": "galleries",
+          "wheres": {
+            "condition": "AND",
+            "rules": [
+              {
+                "id": "id",
+                "type": "double",
+                "operator": "equal",
+                "value": "{{$_POST.id}}",
+                "data": {
+                  "column": "id"
+                },
+                "operation": "="
+              }
+            ]
+          },
+          "returning": "id",
+          "query": "UPDATE galleries\nSET gallery = :P1 /* {{$_POST.gallery}} */, description = :P2 /* {{$_POST.description}} */\nWHERE id = :P3 /* {{$_POST.id}} */",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.gallery}}"
+            },
+            {
+              "name": ":P2",
+              "type": "expression",
+              "value": "{{$_POST.description}}"
+            },
+            {
+              "operator": "equal",
+              "type": "expression",
+              "name": ":P3",
+              "value": "{{$_POST.id}}"
+            }
+          ],
+          "sub": {
+            "images": {
+              "type": "insert",
+              "table": "gallery_images",
+              "key": "gallery_id",
+              "values": [
+                {
+                  "table": "gallery_images",
+                  "column": "image",
+                  "type": "text"
+                }
+              ],
+              "value": "{{$_POST.formRepeatImages}}",
+              "returning": "id",
+              "query": "INSERT INTO gallery_images\n(image) VALUES (NULL)",
+              "params": []
+            }
+          }
+        }
+      },
+      "meta": [
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

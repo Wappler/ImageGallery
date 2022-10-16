@@ -1,0 +1,51 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "gallery"
+      }
+    ]
+  },
+  "exec": {
+    "steps": {
+      "name": "insert",
+      "module": "dbupdater",
+      "action": "insert",
+      "options": {
+        "connection": "db",
+        "sql": {
+          "type": "insert",
+          "values": [
+            {
+              "table": "galleries",
+              "column": "gallery",
+              "type": "text",
+              "value": "{{$_POST.gallery}}"
+            }
+          ],
+          "table": "galleries",
+          "returning": "id",
+          "query": "INSERT INTO galleries\n(gallery) VALUES (:P1 /* {{$_POST.gallery}} */)",
+          "params": [
+            {
+              "name": ":P1",
+              "type": "expression",
+              "value": "{{$_POST.gallery}}"
+            }
+          ]
+        }
+      },
+      "meta": [
+        {
+          "name": "identity",
+          "type": "text"
+        },
+        {
+          "name": "affected",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

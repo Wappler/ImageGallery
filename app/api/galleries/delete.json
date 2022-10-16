@@ -1,0 +1,121 @@
+{
+  "meta": {
+    "$_POST": [
+      {
+        "type": "text",
+        "name": "id"
+      }
+    ]
+  },
+  "exec": {
+    "steps": [
+      {
+        "name": "deleteGallery",
+        "module": "dbupdater",
+        "action": "delete",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "delete",
+            "table": "galleries",
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_POST.id}}",
+                  "data": {
+                    "column": "id"
+                  },
+                  "operation": "="
+                }
+              ]
+            },
+            "returning": "id",
+            "query": "DELETE\nFROM galleries\nWHERE id = :P1 /* {{$_POST.id}} */",
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_POST.id}}"
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "name": "deleteImages",
+        "module": "dbupdater",
+        "action": "delete",
+        "options": {
+          "connection": "db",
+          "sql": {
+            "type": "delete",
+            "table": "gallery_images",
+            "wheres": {
+              "condition": "AND",
+              "rules": [
+                {
+                  "id": "gallery_id",
+                  "field": "gallery_id",
+                  "type": "double",
+                  "operator": "equal",
+                  "value": "{{$_POST.id}}",
+                  "data": {
+                    "column": "gallery_id"
+                  },
+                  "operation": "="
+                }
+              ],
+              "conditional": null,
+              "valid": true
+            },
+            "returning": "id",
+            "query": "DELETE\nFROM gallery_images\nWHERE gallery_id = :P1 /* {{$_POST.id}} */",
+            "params": [
+              {
+                "operator": "equal",
+                "type": "expression",
+                "name": ":P1",
+                "value": "{{$_POST.id}}"
+              }
+            ]
+          }
+        },
+        "meta": [
+          {
+            "name": "affected",
+            "type": "number"
+          }
+        ]
+      },
+      {
+        "name": "fileExists",
+        "module": "fs",
+        "action": "direxists",
+        "options": {
+          "path": "{{'/public/assets/images/galleries/'+$_POST.id}}"
+        },
+        "outputType": "boolean"
+      },
+      {
+        "name": "removeFolder",
+        "module": "fs",
+        "action": "removedir",
+        "options": {
+          "path": "{{'/public/assets/images/galleries/'+$_POST.id}}"
+        },
+        "outputType": "boolean"
+      }
+    ]
+  }
+}
