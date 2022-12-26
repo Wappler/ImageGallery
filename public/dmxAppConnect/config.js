@@ -100,6 +100,27 @@ dmx.config({
         }
       ],
       "outputType": "array"
+    },
+    "repeatImages": {
+      "meta": [
+        {
+          "type": "number",
+          "name": "id"
+        },
+        {
+          "type": "text",
+          "name": "image"
+        },
+        {
+          "type": "number",
+          "name": "gallery_id"
+        },
+        {
+          "type": "number",
+          "name": "image_index"
+        }
+      ],
+      "outputType": "array"
     }
   },
   "gallery": {

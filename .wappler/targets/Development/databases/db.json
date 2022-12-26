@@ -71,6 +71,14 @@
               "onUpdate": "CASCADE",
               "onDelete": "CASCADE"
             }
+          },
+          "image_index": {
+            "db": {
+              "type": "integer",
+              "primary": false,
+              "unique": false,
+              "nullable": true
+            }
           }
         },
         "parent": "galleries"
